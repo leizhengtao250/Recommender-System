@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cd.last.dao.UBookMapper" >
+  <resultMap id="BaseResultMap" type="com.cd.last.entity.UBook" >
+    <result column="bookclass" property="bookclass" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.cd.last.entity.UBook" extends="BaseResultMap" >
+    <result column="userid" property="userid" jdbcType="LONGVARCHAR" />
+    <result column="bookid" property="bookid" jdbcType="LONGVARCHAR" />
+    <result column="bookname" property="bookname" jdbcType="LONGVARCHAR" />
+    <result column="bookauthor" property="bookauthor" jdbcType="LONGVARCHAR" />
+    <result column="bookcover" property="bookcover" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Blob_Column_List" >
+    userid, bookid, bookname, bookauthor, bookcover
+  </sql>
+
+  <select id="findAllByUserid" parameterType="com.cd.last.entity.UBook" resultType="com.cd.last.entity.UBook">
+    select * from user_booktype where user_booktype.userid in (select user.userid from user where user.userid &lt;&gt; #{userid} and user.userclass in (select user.userclass from user where user.userid = #{userid}))
+  </select>
+
+
+</mapper>
